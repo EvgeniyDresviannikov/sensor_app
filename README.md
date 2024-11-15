@@ -10,7 +10,7 @@ http://localhost:8080/swagger-ui/index.html
 DB:
 http://localhost:8080/h2-console (credentials: sa/password)
 
-This is a simple version of application received sensor data. 
+This is a simple version of application that receives data from sensors. 
 Obviously it needs to be improved to work properly at the scale of hundreds of 
 thousands of sensors sending 1 request per minute each.
 The main focus of this version is to meet acceptance criteria mentioned in task.
