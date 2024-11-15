@@ -4,6 +4,7 @@ import com.example.dto.MeasurementDto;
 import com.example.repository.MeasurementRepository;
 import com.example.repository.entity.Measurement;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +38,11 @@ class SensorControllerTest {
     @Autowired
     MeasurementRepository measurementRepository;
 
+    @BeforeEach
+    void cleanMeasurements() {
+        measurementRepository.deleteAll();
+    }
+
     @Test
     void collect() throws Exception {
 
@@ -49,7 +55,7 @@ class SensorControllerTest {
         String json = objectMapper.writeValueAsString(body);
 
         // when then
-        mockMvc.perform(post("/api/v1/sensors/e7c086d3-6131-4cb7-886f-f8a88b62d2c0/measurements")
+        mockMvc.perform(post("/api/v1/sensors/" + SENSOR_UUID + "/measurements")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json)
                         .characterEncoding("utf-8"))
@@ -69,7 +75,7 @@ class SensorControllerTest {
         );
 
         // when then
-        mockMvc.perform(get("/api/v1/sensors/e7c086d3-6131-4cb7-886f-f8a88b62d2c0"))
+        mockMvc.perform(get("/api/v1/sensors/" + SENSOR_UUID))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'status':'OK'}"));
 
@@ -86,7 +92,7 @@ class SensorControllerTest {
         );
 
         // when then
-        mockMvc.perform(get("/api/v1/sensors/e7c086d3-6131-4cb7-886f-f8a88b62d2c0/metrics"))
+        mockMvc.perform(get("/api/v1/sensors/" + SENSOR_UUID + "/metrics"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{'maxLast30Days':1999,'avgLast30Days':1999.0}"));
     }

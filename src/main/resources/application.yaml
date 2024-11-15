@@ -18,3 +18,7 @@ spring:
     id:
       sequence:
         increment_size_mismatch_strategy: FIX
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

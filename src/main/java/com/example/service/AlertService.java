@@ -22,7 +22,9 @@ public class AlertService {
 
     public void processAlertStatus(String sensorId, Timestamp now) {
 
+        // check if sensor is already in alert state
         Optional<Alert> currentAlert = alertRepository.retrieveCurrentAlert(sensorId, now);
+        // last 3 measurements
         List<Measurement> lastMeasurements = measurementRepository.retrieveLast3MeasurementsBySensorId(sensorId);
 
         if (currentAlert.isPresent() && allOk(lastMeasurements)) {

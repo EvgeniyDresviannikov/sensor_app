@@ -21,12 +21,12 @@ public class SensorController {
     private final SensorService sensorService;
 
     @PostMapping(value = "/{uuid}/measurements" )
-    public ResponseEntity<Void> collect(@PathVariable("uuid") String sensorId,
+    public ResponseEntity<String> collect(@PathVariable("uuid") String sensorId,
                                         @RequestBody MeasurementDto measurementDto) {
 
         sensorService.collect(measurementDto, sensorId);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("measurement received");
 
     }
 

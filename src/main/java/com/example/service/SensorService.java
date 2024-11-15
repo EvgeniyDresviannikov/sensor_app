@@ -4,11 +4,13 @@ import com.example.dto.MeasurementDto;
 import com.example.dto.MetricsDto;
 import com.example.dto.SensorStatus;
 import com.example.dto.SensorStatusDto;
+import com.example.exception.DBUniqueConstraintViolationException;
 import com.example.exception.NotFoundException;
 import com.example.mapper.MeasurementMapper;
 import com.example.repository.MeasurementRepository;
 import com.example.repository.entity.Measurement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,8 @@ public class SensorService {
     public void collect(MeasurementDto measurementDto, String sensorId) {
         Measurement measurement = mapper.toMeasurement(measurementDto, sensorId);
         measurementRepository.save(measurement);
+
+        // manage alert table
         alertService.processAlertStatus(measurement.getSensorId(), measurement.getMeasurementTimestamp());
     }
 
